@@ -31,6 +31,14 @@ X = [ones(m, 1) X];
 %       
 
 
+c = X*all_theta';
+% max function returns 2 number: max value and its index
+% Since we need to get the result with number, take the index vector.
+[pred, idx] = max(c, [], 2);
+p = idx;
+
+
+
 
 
 

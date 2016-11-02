@@ -22,6 +22,17 @@ p = zeros(size(X, 1), 1);
 %
 
 
+a_1 = [ones(size(X, 1), 1), X];
+
+z_2 = a_1*Theta1';
+a_2 = sigmoid(z_2);
+a_2 = [ones(size(a_1, 1), 1), a_2];
+
+z_3 = a_2*Theta2';
+a_3 = sigmoid(z_3);
+
+[max_val, idx] = max(a_3, [], 2);
+p = idx;
 
 
 
