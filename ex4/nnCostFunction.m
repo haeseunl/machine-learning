@@ -62,16 +62,69 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+%%%%%%%%%%%%%%%%%%%%%% Pt 1. Forward propagation
+% 1st layer:
+a1 = [ones(size(X, 1), 1), X];
 
 
+% 2nd layer:
+z2 = a1*Theta1';
+a2 = sigmoid(z2);
+a2 = [ones(size(a2, 1), 1), a2];
+
+# 3rd layer
+z3 = a2*Theta2';
+a3 = sigmoid(z3);
+J_sum = 0;
+
+%for idx=1:m     
+%    y_k = zeros(num_labels, 1);
+%    y_k(y(idx)) = 1;
+%    h_k = hx(idx, :);
+%    J_sum = J_sum + (log(h_k)*(-y_k) - log(1.-h_k)*(1.-y_k));
+%endfor
+
+for idx=1:num_labels
+    y_k = (y==idx);
+    h_k = a3(:, idx);
+    J_sum = J_sum + ((-y_k)'*log(h_k) - (1.-y_k)'*log(1.-h_k));
+endfor
+
+J_sum = J_sum/m;
+
+% Add regularization term
+t1 = Theta1(:, 2:end);
+t2 = Theta2(:, 2:end);
+J = J_sum + (lambda/(2*m))*(sum(sum(t1.^2)) + sum(sum(t2.^2)));
 
 
+%%%%%%%%%%%%%%%%%%%%%% Pt 2. Backward propagation
+% Iterate for all training examples
 
+for i=1:m
 
+    ak = a3(i, :)';
 
+    y_k = zeros(num_labels, 1);
+    y_k(y(i)) = 1;
+    d3 = ak .- y_k;
 
+    d2 = (d3'*Theta2).*sigmoidGradient([1, z2(i,:)]);    
+    d2 = d2(2:end)';
 
+    Theta2_grad = Theta2_grad + d3*a2(i,:);
+    Theta1_grad = Theta1_grad + d2*a1(i,:);
 
+endfor
+
+% Get non-regularized Theta 1 & 2
+Theta2_grad = Theta2_grad./m;
+Theta1_grad = Theta1_grad./m;
+
+% Regularized Theta 1 & 2
+% Need to exclude theta 0 from regularization
+Theta2_grad(:, 2:end) = Theta2_grad(:, 2:end) + (lambda/m)* Theta2(:, 2:end);
+Theta1_grad(:, 2:end) = Theta1_grad(:, 2:end) + (lambda/m)* Theta1(:, 2:end);
 
 
 

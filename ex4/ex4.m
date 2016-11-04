@@ -42,7 +42,7 @@ sel = sel(1:100);
 displayData(X(sel, :));
 
 fprintf('Program paused. Press enter to continue.\n');
-pause;
+%pause;
 
 
 %% ================ Part 2: Loading Parameters ================
@@ -81,7 +81,7 @@ fprintf(['Cost at parameters (loaded from ex4weights): %f '...
          '\n(this value should be about 0.287629)\n'], J);
 
 fprintf('\nProgram paused. Press enter to continue.\n');
-pause;
+%pause;
 
 %% =============== Part 4: Implement Regularization ===============
 %  Once your cost function implementation is correct, you should now
@@ -146,6 +146,7 @@ fprintf('\nChecking Backpropagation... \n');
 %  Check gradients by running checkNNGradients
 checkNNGradients;
 
+
 fprintf('\nProgram paused. Press enter to continue.\n');
 pause;
 
@@ -164,6 +165,7 @@ checkNNGradients(lambda);
 % Also output the costFunction debugging values
 debug_J  = nnCostFunction(nn_params, input_layer_size, ...
                           hidden_layer_size, num_labels, X, y, lambda);
+
 
 fprintf(['\n\nCost at (fixed) debugging parameters (w/ lambda = 10): %f ' ...
          '\n(this value should be about 0.576051)\n\n'], debug_J);
