@@ -52,10 +52,14 @@ file_contents = readFile('emailSample1.txt');
 word_indices  = processEmail(file_contents);
 features      = emailFeatures(word_indices);
 
+fprintf('Word Indices: \n');
+fprintf(' %d', word_indices);
+fprintf('\n\n');
+
+
 % Print Stats
 fprintf('Length of feature vector: %d\n', length(features));
 fprintf('Number of non-zero entries: %d\n', sum(features > 0));
-
 fprintf('Program paused. Press enter to continue.\n');
 pause;
 

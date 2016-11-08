@@ -23,7 +23,29 @@ sigma = 0.3;
 %        mean(double(predictions ~= yval))
 %
 
+C_set = [0.01; 0.03; 0.1; 0.3; 1; 3; 10; 30];
+sigma_set = [0.01; 0.03; 0.1; 0.3; 1; 3; 10; 30];
+minErr = 100000.0;
 
+tot_num = length(C_set)*length(sigma_set);
+cnt=0;
+for c=1:length(C_set)
+    c_in = C_set(c);
+    for s=1:length(sigma_set)
+        cnt=cnt+1;
+        s_in = sigma_set(s);
+        fprintf("(%d/%d) trainging (C: %f | sigma: %f)", cnt, tot_num, c_in, s_in);
+        model = svmTrain(X, y, c_in, @(x1, x2) gaussianKernel(x1, x2, s_in));
+        predictions = svmPredict(model, Xval);
+        err = mean(double(predictions ~= yval));
+        if (err<minErr)
+            minErr = err;
+            C = c_in;
+            sigma = s_in;
+        end
+        fprintf("Error: %f (MinErr: %f C: %f singma: %f)\n\n\n", err, minErr, C, sigma);
+    end
+end
 
 
 

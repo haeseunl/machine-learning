@@ -52,7 +52,25 @@ error_val   = zeros(m, 1);
 %
 
 % ---------------------- Sample Solution ----------------------
+theta = [1 ; 1];
 
+for i=1:m
+	Xin = X(1:i, :);
+	yin = y(1:i);
+	
+	[theta] = trainLinearReg(Xin, yin, lambda);
+	
+	hx = Xin * theta;
+	diff = hx - yin;
+	error_train(i) = (diff'*diff) ./ (2*length(yin));
+	
+	hval = Xval * theta;
+	diff = hval - yval;
+	
+	error_val(i) = (diff'*diff) ./ (2*length(yval)); 
+	
+
+end
 
 
 

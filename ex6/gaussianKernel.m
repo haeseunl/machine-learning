@@ -16,6 +16,10 @@ sim = 0;
 %
 %
 
+diff = x1-x2;
+
+z = (diff'*diff)/(2*sigma^2);
+sim = exp(-z);
 
 
 
